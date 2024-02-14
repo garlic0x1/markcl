@@ -69,3 +69,9 @@ If there is a tag you want to add, you can register a method like this:
 ```
 
 Likewise, `render-form` is a generic function you can extend if you want it to be able to handle complex types.
+
+# TODO
+
+Add forms that support attributes, like anchor tags and code blocks
+
+Support nested lists (might be challenging)

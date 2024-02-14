@@ -106,8 +106,15 @@
   )
 
 (defgeneric render-form (out sxml)
+  (:method (out (sxml symbol))
+    (format out "~(~a~)" sxml))
+
+  (:method (out (sxml number))
+    (format out "~a" sxml))
+
   (:method (out (sxml string))
     (format out "~a" sxml))
+
   (:method (out (sxml list))
     (apply-tag out (car sxml) (cdr sxml))))
 
