@@ -86,12 +86,12 @@ Some tags, like `code-block` and `a`, accept attributes.  This works the same as
   '(:code-block :lang "lisp" "(+ 1 2)"))
 ```
 
-```
+````
 [clickme](https://example.com)
-\```lisp
+```lisp
 (+ 1 2)
-\```
 ```
+````
 
 # Extension
 
