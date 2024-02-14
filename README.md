@@ -72,6 +72,6 @@ Likewise, `render-form` is a generic function you can extend if you want it to b
 
 # TODO
 
-Add forms that support attributes, like anchor tags and code blocks
-
-Support nested lists (might be challenging)
+- Add forms that support attributes, like anchor tags and code blocks
+- Support nested lists (might be challenging)
+- Write tests
