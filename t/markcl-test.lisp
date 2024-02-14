@@ -61,3 +61,12 @@ world"
          '(:<>
            (:h1 "hello")
            (:hjkl "world"))))))
+
+;; ----------------------------------------------------------------------------
+(test :extension
+  (defmethod markcl::apply-tag (out (tag (eql :lowercase-str)) body)
+    (format out "~(~a~)" (car body)))
+
+  (is (equal
+       "lower"
+       (markcl:render nil '(:lowercase-str "LOWER")))))
