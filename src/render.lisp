@@ -34,10 +34,13 @@
     (render-forms out body)
     (format out "~%~%"))
 
-  (:method (out (tag (eql :paragraph)) body)
+  (:method (out (tag (eql :p)) body)
     (dolist (form body)
       (render-form out form))
     (format out "~%~%"))
+
+  (:method (out (tag (eql :paragraph)) body)
+    (apply-tag out :p body))
 
   (:method (out (tag (eql :<>)) body)
     (render-forms out body))
@@ -62,15 +65,21 @@
   (:method (out (tag (eql :br)) body)
     (format out "~%"))
 
-  (:method (out (tag (eql :bold)) body)
+  (:method (out (tag (eql :b)) body)
     (format out "**")
     (render-forms out body)
     (format out "**"))
 
-  (:method (out (tag (eql :italic)) body)
+  (:method (out (tag (eql :bold)) body)
+    (apply-tag out :b body))
+
+  (:method (out (tag (eql :i)) body)
     (format out "*")
     (render-forms out body)
     (format out "*"))
+
+  (:method (out (tag (eql :italic)) body)
+    (apply-tag out :i body))
 
   (:method (out (tag (eql :bold-italic)) body)
     (format out "***")

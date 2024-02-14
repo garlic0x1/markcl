@@ -35,7 +35,31 @@ Hello **world**
 
 ```
 
-A number of tags are supported, but you can add your own by defining CLOS methods
+# Tags
+
+This might not be an exhaustive list, but the following tags are supported:
+
+- `h1`-`h6`
+- `p`
+- `paragraph` (alias to `p`)
+- `<>` (nil tag)
+- `ul`
+- `ol`
+- `list` (alias to `ul`)
+- `br`
+- `b`
+- `i`
+- `bold` (alias to `b`)
+- `italic` (alias to `i`)
+- `bold-italic`
+- `blockquote`
+- `code`
+- `hr`
+- `url`
+
+# Extension
+
+If there is a tag you want to add, you can register a method like this:
 
 ```lisp
 (defmethod markcl::apply-tag (out (tag (eql :my-tag)) body)
@@ -43,3 +67,5 @@ A number of tags are supported, but you can add your own by defining CLOS method
     (format "my tag form~%")
     (markcl::render-form out form))
 ```
+
+Likewise, `render-form` is a generic function you can extend if you want it to be able to handle complex types.
