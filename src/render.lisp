@@ -119,7 +119,7 @@
       (format out "[")
       (render-forms out children)
       (format out "](")
-      (render-form out (assoc-value attrs :href))
+      (render-form out (or (assoc-value attrs :href) (assoc-value attrs :url)))
       (format out ")")))
 
   (:method (out (tag (eql :link)) body)
@@ -127,7 +127,7 @@
 
   (:method (out (tag (eql :code-block)) body)
     (multiple-value-bind (attrs children) (extract-attrs-and-children body)
-      (format out "~%```~a~%" (assoc-value attrs :lang))
+      (format out "~%```~a~%" (or (assoc-value attrs :lang) ""))
       (render-forms out children)
       (format out "~%```~%~%")))
 
