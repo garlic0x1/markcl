@@ -4,7 +4,7 @@ This is a tool to convert s-expressions into markdown, based on [Hiccl](https://
 
 # Usage
 
-Markcl exposes one macro, `render` that accepts an output and any number of s-expressions to convert into markdown.
+Markcl exposes one macro, `render`, that accepts an output and any number of s-expressions to convert into markdown.
 
 The output argument can be `nil` if you want a string, `t` if you want stdout, or any stream.  It is the same as `format`
 
@@ -33,6 +33,22 @@ Hello **world**
 > be me
 ###### small header
 
+```
+
+`render` can take multiple forms, I just used <> (nil tag) above to avoid superfluous quoting.
+
+```lisp
+(markcl:render nil
+  '(:h1 "title")
+  '(:p "content"))
+```
+
+```
+"# title
+
+content
+
+"
 ```
 
 # Tags
