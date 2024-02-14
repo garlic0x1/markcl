@@ -127,7 +127,7 @@
 
   (:method (out (tag (eql :code-block)) body)
     (multiple-value-bind (attrs children) (extract-attrs-and-children body)
-      (format out "```~a~%" (assoc-value attrs :lang))
+      (format out "~%```~a~%" (assoc-value attrs :lang))
       (render-forms out children)
       (format out "~%```~%~%")))
 

@@ -76,6 +76,23 @@ This might not be an exhaustive list, but the following tags are supported:
 - `a`
 - `link` (alias to `a`)
 
+# Attributes
+
+Some tags, like `code-block` and `a`, accept attributes.  This works the same as in Hiccl, basically looking for keyword arguments after the tag.
+
+```lisp
+(render t
+  '(:a :href "https://example.com" "clickme")
+  '(:code-block :lang "lisp" "(+ 1 2)"))
+```
+
+```
+[clickme](https://example.com)
+\```lisp
+(+ 1 2)
+\```
+```
+
 # Extension
 
 If there is a tag you want to add, you can register a method like this:
