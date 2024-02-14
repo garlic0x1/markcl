@@ -36,9 +36,8 @@
 
   (:method (out (tag (eql :paragraph)) body)
     (dolist (form body)
-      (render-form out form)
-      (format out "~%"))
-    (format out "~%"))
+      (render-form out form))
+    (format out "~%~%"))
 
   (:method (out (tag (eql :<>)) body)
     (render-forms out body))

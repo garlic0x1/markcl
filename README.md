@@ -14,9 +14,25 @@ The output argument can be `nil` if you want a string, `t` if you want stdout, o
 (markcl:render t
   `(:<>
     (:h1 "Title")
-    (:paragraph "Hello world"
-     (:list "list" (:italic "in") "paragraph"))
-    (:bold "i am bold")))
+    (:paragraph "Hello " (:bold "world"))
+    (:list "list" (:italic "of") (:bold-italic "items"))
+    (:br)
+    (:blockquote "be me")
+    (:h6 "small header")))
+```
+
+```
+# Title
+
+Hello **world**
+
+- list
+- *of*
+- ***items***
+
+> be me
+###### small header
+
 ```
 
 A number of tags are supported, but you can add your own by defining CLOS methods
