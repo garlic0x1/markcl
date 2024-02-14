@@ -1,10 +1,10 @@
-# Markcl markup renderer
+# Markcl markdown renderer
 
-This is a tool to convert s-expressions into markup, based on [Hiccl](https://github.com/garlic0x1/hiccl)
+This is a tool to convert s-expressions into markdown, based on [Hiccl](https://github.com/garlic0x1/hiccl)
 
 # Usage
 
-Markcl exposes one macro, `render` that accepts an output and any number of s-expressions to convert into markup.
+Markcl exposes one macro, `render` that accepts an output and any number of s-expressions to convert into markdown.
 
 The output argument can be `nil` if you want a string, `t` if you want stdout, or any stream.  It is the same as `format`
 

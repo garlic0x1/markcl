@@ -43,10 +43,21 @@
     (render-forms out body))
 
   (:method (out (tag (eql :list)) body)
+    (apply-tag out :ul body))
+
+  (:method (out (tag (eql :ul)) body)
     (dolist (form body)
       (format out "- ")
       (render-form out form)
       (format out "~%")))
+
+  (:method (out (tag (eql :ol)) body)
+    (let ((c 1))
+      (dolist (form body)
+        (format out "~a. " c)
+        (render-form out form)
+        (format out "~%")
+        (incf c))))
 
   (:method (out (tag (eql :br)) body)
     (format out "~%"))
@@ -69,7 +80,21 @@
   (:method (out (tag (eql :blockquote)) body)
     (format out "> ")
     (render-forms out body)
-    (format out "~%")))
+    (format out "~%"))
+
+  (:method (out (tag (eql :code)) body)
+    (format out "`")
+    (render-forms out body)
+    (format out "`"))
+
+  (:method (out (tag (eql :hr)) body)
+    (format out "---~%~%"))
+
+  (:method (out (tag (eql :url)) body)
+    (format out "<")
+    (render-forms out body)
+    (format out ">"))
+  )
 
 (defgeneric render-form (out sxml)
   (:method (out (sxml string))
