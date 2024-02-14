@@ -3,6 +3,13 @@
   (:export :render))
 (in-package :markcl)
 
+(defun extract-attrs-and-children (body)
+  (let* ((attrs (loop :for (k v) :on body :by 'cddr
+                      :while (keywordp k)
+                      :collect (cons k v)))
+         (children (nthcdr (* 2 (length attrs)) body)))
+    (values attrs children)))
+
 (defgeneric apply-tag (out tag body)
   (:method (out (tag (eql :h1)) body)
     (format out "# ")
@@ -103,7 +110,10 @@
     (format out "<")
     (render-forms out body)
     (format out ">"))
-  )
+
+  (:method (out (tag symbol) body)
+    (warn "Unknown tag: ~a" tag)
+    (render-forms out body)))
 
 (defgeneric render-form (out sxml)
   (:method (out (sxml symbol))
