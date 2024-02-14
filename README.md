@@ -76,6 +76,8 @@ This might not be an exhaustive list, but the following tags are supported:
 - `a`
 - `link` (alias to `a`)
 
+Unknown tags will throw a warning and just render the body, this makes it easy if you want to copy your HTML rendering code.
+
 # Attributes
 
 Some tags, like `code-block` and `a`, accept attributes.  This works the same as in Hiccl, basically looking for keyword arguments after the tag.
@@ -100,8 +102,8 @@ If there is a tag you want to add, you can register a method like this:
 ```lisp
 (defmethod markcl::apply-tag (out (tag (eql :my-tag)) body)
   (dolist (form body)
-    (format "my tag form~%")
-    (markcl::render-form out form))
+    (format out "my tag form~%")
+    (markcl::render-form out form)))
 ```
 
 Likewise, `render-form` is a generic function you can extend if you want it to be able to handle complex types.
