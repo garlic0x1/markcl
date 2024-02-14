@@ -3,6 +3,7 @@
   (:export :render))
 (in-package :markcl)
 
+;; ----------------------------------------------------------------------------
 (defun extract-attrs-and-children (body)
   (let* ((attrs (loop :for (k v) :on body :by 'cddr
                       :while (keywordp k)
@@ -10,6 +11,7 @@
          (children (nthcdr (* 2 (length attrs)) body)))
     (values attrs children)))
 
+;; ----------------------------------------------------------------------------
 (defgeneric apply-tag (out tag body)
   (:method (out (tag (eql :h1)) body)
     (format out "# ")
@@ -42,8 +44,7 @@
     (format out "~%~%"))
 
   (:method (out (tag (eql :p)) body)
-    (dolist (form body)
-      (render-form out form))
+    (render-forms out body)
     (format out "~%~%"))
 
   (:method (out (tag (eql :paragraph)) body)
@@ -59,7 +60,8 @@
     (dolist (form body)
       (format out "- ")
       (render-form out form)
-      (format out "~%")))
+      (format out "~%"))
+    (format out "~%"))
 
   (:method (out (tag (eql :ol)) body)
     (let ((c 1))
@@ -67,7 +69,8 @@
         (format out "~a. " c)
         (render-form out form)
         (format out "~%")
-        (incf c))))
+        (incf c)))
+    (format out "~%"))
 
   (:method (out (tag (eql :br)) body)
     (format out "~%"))
@@ -111,10 +114,28 @@
     (render-forms out body)
     (format out ">"))
 
+  (:method (out (tag (eql :a)) body)
+    (multiple-value-bind (attrs children) (extract-attrs-and-children body)
+      (format out "[")
+      (render-forms out children)
+      (format out "](")
+      (render-form out (assoc-value attrs :href))
+      (format out ")")))
+
+  (:method (out (tag (eql :link)) body)
+    (apply-tag out :a body))
+
+  (:method (out (tag (eql :code-block)) body)
+    (multiple-value-bind (attrs children) (extract-attrs-and-children body)
+      (format out "```~a~%" (assoc-value attrs :lang))
+      (render-forms out children)
+      (format out "~%```~%~%")))
+
   (:method (out (tag symbol) body)
     (warn "Unknown tag: ~a" tag)
     (render-forms out body)))
 
+;; ----------------------------------------------------------------------------
 (defgeneric render-form (out sxml)
   (:method (out (sxml symbol))
     (format out "~(~a~)" sxml))
@@ -128,11 +149,13 @@
   (:method (out (sxml list))
     (apply-tag out (car sxml) (cdr sxml))))
 
+;; ----------------------------------------------------------------------------
 (defun render-forms (out forms)
   (if out
       (dolist (f forms) (render-form out f))
       (with-output-to-string (capture)
         (funcall #'render-forms capture forms))))
 
+;; ----------------------------------------------------------------------------
 (defmacro render (output &body forms)
   `(render-forms ,output (list ,@forms)))

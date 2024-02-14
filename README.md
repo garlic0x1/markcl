@@ -70,8 +70,11 @@ This might not be an exhaustive list, but the following tags are supported:
 - `bold-italic`
 - `blockquote`
 - `code`
+- `code-block`
 - `hr`
 - `url`
+- `a`
+- `link` (alias to `a`)
 
 # Extension
 
@@ -88,6 +91,5 @@ Likewise, `render-form` is a generic function you can extend if you want it to b
 
 # TODO
 
-- Add forms that support attributes, like anchor tags and code blocks
 - Support nested lists (might be challenging)
 - Write tests
