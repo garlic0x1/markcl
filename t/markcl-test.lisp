@@ -2,10 +2,12 @@
   (:use :cl :fiveam))
 (in-package :markcl-test)
 
+;; ----------------------------------------------------------------------------
 (def-suite :markcl
   :description "Tests for Markcl")
 (in-suite :markcl)
 
+;; ----------------------------------------------------------------------------
 (test :basic
   (is (equal
        "# title
@@ -17,6 +19,7 @@ paragraph
          '(:h1 "title")
          '(:p "paragraph")))))
 
+;; ----------------------------------------------------------------------------
 (test :attrs
   (is (equal
        "[name](url)
@@ -29,12 +32,14 @@ nil
          '(:a :href "url" "name")
          '(:code-block :lang "lisp" "nil")))))
 
+;; ----------------------------------------------------------------------------
 (test :evaluation
   (is (equal
        "[hello](world)"
        (markcl:render nil
          `(:a :href ,(format nil "world") "hello")))))
 
+;; ----------------------------------------------------------------------------
 (test :ordered-list
   (is (equal
        "1. one
@@ -44,3 +49,15 @@ nil
 "
        (markcl:render nil
          `(:ol "one" "two" "three")))))
+
+;; this should emit a warning, but idk how to test for it.
+;; ----------------------------------------------------------------------------
+(test :unknown-tags
+  (is (equal
+       "# hello
+
+world"
+       (markcl:render nil
+         '(:<>
+           (:h1 "hello")
+           (:hjkl "world"))))))
