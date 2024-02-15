@@ -13,6 +13,9 @@
 
 ;; ----------------------------------------------------------------------------
 (defgeneric apply-tag (out tag body)
+  (:method (out (tag (eql :<>)) body)
+    (render-forms out body))
+
   (:method (out (tag (eql :h1)) body)
     (format out "# ")
     (render-forms out body)
@@ -47,15 +50,6 @@
     (render-forms out body)
     (format out "~%~%"))
 
-  (:method (out (tag (eql :paragraph)) body)
-    (apply-tag out :p body))
-
-  (:method (out (tag (eql :<>)) body)
-    (render-forms out body))
-
-  (:method (out (tag (eql :list)) body)
-    (apply-tag out :ul body))
-
   (:method (out (tag (eql :ul)) body)
     (dolist (form body)
       (format out "- ")
@@ -80,16 +74,10 @@
     (render-forms out body)
     (format out "**"))
 
-  (:method (out (tag (eql :bold)) body)
-    (apply-tag out :b body))
-
   (:method (out (tag (eql :i)) body)
     (format out "*")
     (render-forms out body)
     (format out "*"))
-
-  (:method (out (tag (eql :italic)) body)
-    (apply-tag out :i body))
 
   (:method (out (tag (eql :bold-italic)) body)
     (format out "***")
@@ -122,9 +110,6 @@
       (render-form out (or (assoc-value attrs :href) (assoc-value attrs :url)))
       (format out ")")))
 
-  (:method (out (tag (eql :link)) body)
-    (apply-tag out :a body))
-
   (:method (out (tag (eql :code-block)) body)
     (multiple-value-bind (attrs children) (extract-attrs body)
       (format out "~%```~a~%" (or (assoc-value attrs :lang) ""))
@@ -150,6 +135,21 @@
       (render-form out form)
       (format out " |"))
     (format out "~%"))
+
+  (:method (out (tag (eql :link)) body)
+    (apply-tag out :a body))
+
+  (:method (out (tag (eql :paragraph)) body)
+    (apply-tag out :p body))
+
+  (:method (out (tag (eql :list)) body)
+    (apply-tag out :ul body))
+
+  (:method (out (tag (eql :bold)) body)
+    (apply-tag out :b body))
+
+  (:method (out (tag (eql :italic)) body)
+    (apply-tag out :i body))
 
   (:method (out (tag symbol) body)
     (warn "Unknown tag: ~a" tag)

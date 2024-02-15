@@ -65,9 +65,15 @@ world"
 
 ;; ----------------------------------------------------------------------------
 (test :extension
+  ;; test custom tag
   (defmethod markcl::apply-tag (out (tag (eql :lowercase-str)) body)
     (format out "~(~a~)" (car body)))
 
+  (is (equal
+       "lower"
+       (markcl:render nil '(:lowercase-str "LOWER"))))
+
+  ;; test custom render object
   (defmethod markcl::render-form (out (sxml hash-table))
     (markcl:render out
       `(:<>
@@ -76,10 +82,6 @@ world"
            (lambda (k)
              `(:tr ,k ,(gethash k sxml)))
            (hash-table-keys sxml)))))
-
-  (is (equal
-       "lower"
-       (markcl:render nil '(:lowercase-str "LOWER"))))
 
   (is (equal
        "

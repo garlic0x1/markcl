@@ -56,18 +56,14 @@ content
 This might not be an exhaustive list, but the following tags are supported.
 (Aliases might become deprecated).
 
+- `<>` (nil tag)
 - `h1`-`h6`
 - `p`
-- `paragraph` (alias to `p`)
-- `<>` (nil tag)
 - `ul`
 - `ol`
-- `list` (alias to `ul`)
 - `br`
 - `b`
 - `i`
-- `bold` (alias to `b`)
-- `italic` (alias to `i`)
 - `bold-italic`
 - `blockquote`
 - `code`
@@ -75,9 +71,13 @@ This might not be an exhaustive list, but the following tags are supported.
 - `hr`
 - `url`
 - `a`
-- `link` (alias to `a`)
 - `thead`
 - `tr`
+- `link` (alias to `a`)
+- `paragraph` (alias to `p`)
+- `list` (alias to `ul`)
+- `bold` (alias to `b`)
+- `italic` (alias to `i`)
 
 Unknown tags will throw a warning and just render the body, this makes it easy if you want to copy your HTML rendering code.
 
@@ -136,3 +136,4 @@ Then you can do this:
 # TODO
 
 - Support nested lists (might be challenging)
+- Test on actual documents, make sure newlines are in the right places
