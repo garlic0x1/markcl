@@ -77,10 +77,6 @@ world"
              `(:tr ,k ,(gethash k sxml)))
            (hash-table-keys sxml)))))
 
-  (defparameter test-table (make-hash-table))
-  (setf (gethash :k1 test-table) "v1")
-  (setf (gethash :k2 test-table) "v2")
-
   (is (equal
        "lower"
        (markcl:render nil '(:lowercase-str "LOWER"))))
@@ -92,7 +88,7 @@ world"
 | k2 | v2 |
 | k1 | v1 |
 "
-       (markcl:render nil test-table))))
+       (markcl:render nil (dict :k1 "v1" :k2 "v2")))))
 
 ;; ----------------------------------------------------------------------------
 (test :extract-attrs
