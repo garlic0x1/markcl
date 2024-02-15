@@ -75,6 +75,8 @@ This might not be an exhaustive list, but the following tags are supported:
 - `url`
 - `a`
 - `link` (alias to `a`)
+- `thead`
+- `tr`
 
 Unknown tags will throw a warning and just render the body, this makes it easy if you want to copy your HTML rendering code.
 

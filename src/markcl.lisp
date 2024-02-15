@@ -131,6 +131,23 @@
       (render-forms out children)
       (format out "~%```~%~%")))
 
+  (:method (out (tag (eql :thead)) body)
+    (format out "~%| ")
+    (dolist (form body)
+      (render-form out form)
+      (format out " | "))
+    (format out "~%| ")
+    (dolist (_ body)
+      (format out ":---: | "))
+    (format out "~%"))
+
+  (:method (out (tag (eql :tr)) body)
+    (format out "| ")
+    (dolist (form body)
+      (render-form out form)
+      (format out " | "))
+    (format out "~%"))
+
   (:method (out (tag symbol) body)
     (warn "Unknown tag: ~a" tag)
     (render-forms out body)))
