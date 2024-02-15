@@ -67,9 +67,31 @@ world"
   (defmethod markcl::apply-tag (out (tag (eql :lowercase-str)) body)
     (format out "~(~a~)" (car body)))
 
+  (defmethod markcl::render-form (out (sxml hash-table))
+    (markcl:render out
+      `(:<>
+        (:thead "key" "value")
+        ,@(mapcar
+           (lambda (k)
+             `(:tr ,k ,(gethash k sxml)))
+           (hash-table-keys sxml)))))
+
+  (defparameter test-table (make-hash-table))
+  (setf (gethash :k1 test-table) "v1")
+  (setf (gethash :k2 test-table) "v2")
+
   (is (equal
        "lower"
-       (markcl:render nil '(:lowercase-str "LOWER")))))
+       (markcl:render nil '(:lowercase-str "LOWER"))))
+
+  (is (equal
+       "
+| key | value |
+| :---: | :---: |
+| k2 | v2 |
+| k1 | v1 |
+"
+       (markcl:render nil test-table))))
 
 ;; ----------------------------------------------------------------------------
 (test :extract-attrs

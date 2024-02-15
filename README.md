@@ -53,7 +53,8 @@ content
 
 # Tags
 
-This might not be an exhaustive list, but the following tags are supported:
+This might not be an exhaustive list, but the following tags are supported.
+(Aliases might become deprecated).
 
 - `h1`-`h6`
 - `p`
