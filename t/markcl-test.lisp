@@ -1,5 +1,5 @@
 (defpackage #:markcl-test
-  (:use :cl :fiveam))
+  (:use :cl :alexandria :fiveam))
 (in-package :markcl-test)
 
 ;; ----------------------------------------------------------------------------
@@ -70,3 +70,11 @@ world"
   (is (equal
        "lower"
        (markcl:render nil '(:lowercase-str "LOWER")))))
+
+;; ----------------------------------------------------------------------------
+(test :extract-attrs
+  (multiple-value-bind (attrs children)
+      (markcl::extract-attrs '(:k "v" :k2 "v2" "body" :body))
+    (is (= 2 (length children)))
+    (is (equal "v" (assoc-value attrs :k)))
+    (is (equal "v2" (assoc-value attrs :k2)))))

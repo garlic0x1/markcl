@@ -4,7 +4,7 @@
 (in-package :markcl)
 
 ;; ----------------------------------------------------------------------------
-(defun extract-attrs-and-children (body)
+(defun extract-attrs (body)
   (let* ((attrs (loop :for (k v) :on body :by 'cddr
                       :while (keywordp k)
                       :collect (cons k v)))
@@ -115,7 +115,7 @@
     (format out ">"))
 
   (:method (out (tag (eql :a)) body)
-    (multiple-value-bind (attrs children) (extract-attrs-and-children body)
+    (multiple-value-bind (attrs children) (extract-attrs body)
       (format out "[")
       (render-forms out children)
       (format out "](")
@@ -126,7 +126,7 @@
     (apply-tag out :a body))
 
   (:method (out (tag (eql :code-block)) body)
-    (multiple-value-bind (attrs children) (extract-attrs-and-children body)
+    (multiple-value-bind (attrs children) (extract-attrs body)
       (format out "~%```~a~%" (or (assoc-value attrs :lang) ""))
       (render-forms out children)
       (format out "~%```~%~%")))
@@ -158,4 +158,7 @@
 
 ;; ----------------------------------------------------------------------------
 (defmacro render (output &body forms)
+  "Render SXML style forms to the output stream.
+
+If output is nil, a string is returned."
   `(render-forms ,output (list ,@forms)))
