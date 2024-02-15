@@ -109,7 +109,29 @@ If there is a tag you want to add, you can register a method like this:
     (markcl::render-form out form)))
 ```
 
-Likewise, `render-form` is a generic function you can extend if you want it to be able to handle complex types.
+Likewise, `render-form` is a generic function you can extend if you want it to be able to handle complex types.  For example, if you want to automatically render hash-tables, you can register a method:
+
+```lisp
+(defmethod markcl::render-form (out (sxml hash-table))
+  (markcl:render out
+    `(:<>
+      (:thead "key" "value")
+      ,@(mapcar
+         (lambda (k)
+           `(:tr ,k ,(gethash k sxml)))
+         (hash-table-keys sxml)))))
+```
+
+Then you can do this:
+
+```lisp
+(markcl:render t (dict :k1 "v1" :k2 "v2"))
+```
+
+| key | value |
+| :---: | :---: |
+| k2 | v2 |
+| k1 | v1 |
 
 # TODO
 

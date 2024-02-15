@@ -1,5 +1,6 @@
 (defpackage #:markcl-test
-  (:use :cl :alexandria :fiveam))
+  (:use :cl :alexandria :fiveam)
+  (:import-from :serapeum :dict))
 (in-package :markcl-test)
 
 ;; ----------------------------------------------------------------------------
